@@ -17,27 +17,36 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+//    @Transactional
     @Transactional(rollbackFor = DataFormatException.class)
-    public void saveAll(List<Member> members) {
+    public void saveAll(List<Member> members) throws Exception {
         for (Member member : members) {
-
-            if(!member.getName().startsWith("#")) {
-                validUsername(member.getName());
-            }
+//            validUsernameThrowRuntimeException(member.getName());
+//            validUsernameTryCatchRuntimeException(member.getName());
+            validUsernameThrowDataFormatException(member.getName());
             memberRepository.save(member);
         }
     }
 
-    private void validUsername(String name) {
-        try {
-            if(name.startsWith("#")) {
-                throw new DataFormatException();
-            }
-        } catch (DataFormatException e) {
-            e.printStackTrace();
-            log.error("사용자 이름 앞에는 #이 반드시 있어야합니다.");
+    private void validUsernameThrowRuntimeException(String name) {
+        if(!name.startsWith("#")) {
+            throw new RuntimeException(); //UnChecked Exception
         }
     }
 
+    private void validUsernameTryCatchRuntimeException(String name) {
+        if(!name.startsWith("#")) {
+            try {
+                throw new RuntimeException(); //UnChecked Exception
+            }catch (RuntimeException e) {
+                e.printStackTrace(); //예외를 복구할것으로 예측할 수 있음
+            }
+        }
+    }
 
+    private void validUsernameThrowDataFormatException(String name) throws DataFormatException {
+        if(!name.startsWith("#")) {
+            throw new DataFormatException(); //Checked Exception
+        }
+    }
 }
