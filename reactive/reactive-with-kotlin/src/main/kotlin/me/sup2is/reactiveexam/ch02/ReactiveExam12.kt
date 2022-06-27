@@ -12,36 +12,33 @@ fun main(args: Array<String>) {
         Person(name = "woo", age = 31)
     )
 
-    val group2 = Flux.just(
-        Person(name = "yoon", age = 30),
-        Person(name = "hwang", age = 30)
-    )
-
     val choi = Mono.just(Person(name = "choi", age = 29))
 
-    val woo = Mono.just(Person(name = "woo", age = 31))
+    println("\n###  Mono.defaultIfEmpty()\n")
 
-    println("\n###  Mono.and()\n")
-
-    choi.and(woo)
+    Mono.empty<Person>()
+        .defaultIfEmpty(Person(name = "choi", age = 29))
         .log()
         .subscribe { println("subscribe: $it") }
 
-    println("\n###  Mono.when()\n")
+    println("\n###  Flux.defaultIfEmpty()\n")
 
-    Mono.`when`(choi, woo)
+    Flux.empty<Person>()
+        .defaultIfEmpty(Person(name = "woo", age = 31))
         .log()
         .subscribe { println("subscribe: $it") }
 
-    println("\n###  Mono.firstWithSignal()\n")
+    println("\n###  Mono.switchIfEmpty()\n")
 
-    Mono.firstWithSignal(choi, woo)
+    Mono.empty<Person>()
+        .switchIfEmpty(choi)
         .log()
         .subscribe { println("subscribe: $it") }
 
-    println("\n###  Flux.firstWithSignal()\n")
+    println("\n###  Flux.switchIfEmpty()\n")
 
-    Flux.firstWithSignal(group1, group2)
+    Flux.empty<Person>()
+        .switchIfEmpty(group1)
         .log()
         .subscribe { println("subscribe: $it") }
 }
