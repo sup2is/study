@@ -1,14 +1,23 @@
 package me.sup2is.reactiveexam.ch05
 
+import me.sup2is.reactiveexam.Person
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 fun main(args: Array<String>) {
 
+    val group1 = Flux.just(
+        Person(name = "choi", age = 29),
+        Person(name = "woo", age = 31),
+        Person(name = "yoon", age = 30),
+        Person(name = "hwang", age = 30)
+    )
+
     println("\n### Mono.onErrorReturn()\n")
 
-    Mono.error<RuntimeException>(IllegalStateException())
+    group1.single()
         .onErrorReturn(
-            RuntimeException()
+            Person(name = "error", age = 999)
         )
         .log()
         .doOnError { println("doOnError: $it") }
@@ -18,9 +27,9 @@ fun main(args: Array<String>) {
 
     println("\n### Mono.onErrorResume()\n")
 
-    Mono.error<RuntimeException>(IllegalStateException())
+    group1.single()
         .onErrorResume {
-            Mono.just(RuntimeException())
+            Mono.just(Person(name = "error", age = 999))
         }
         .log()
         .doOnError { println("doOnError: $it") }

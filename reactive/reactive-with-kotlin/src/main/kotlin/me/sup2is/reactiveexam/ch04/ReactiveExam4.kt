@@ -31,13 +31,15 @@ fun main(args: Array<String>) {
 
     println("\n### Flux.single()\n")
 
-    group1.single()
+    Flux.just(1)
+        .single()
         .log()
         .subscribe { println("subscribe: $it") }
 
     println("\n### Flux.singleOrEmpty()\n")
 
-    group1.singleOrEmpty()
+    Flux.just(1)
+        .singleOrEmpty()
         .log()
         .subscribe { println("subscribe: $it") }
 }

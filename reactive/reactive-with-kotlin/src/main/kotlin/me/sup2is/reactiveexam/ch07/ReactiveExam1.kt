@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
 
     println("\n### Flux.windowUntil()\n")
 
-    group1.windowWhile() { it.age >= 30 }
+    group1.windowUntil { it.age >= 30 }
         .flatMap {
             println("slice")
             it
@@ -43,4 +43,13 @@ fun main(args: Array<String>) {
         .log()
         .subscribe()
 
+    println("\n### Flux.windowWhile()\n")
+
+    group1.windowWhile { it.age >= 30 }
+        .flatMap {
+            println("slice")
+            it
+        }
+        .log()
+        .subscribe()
 }

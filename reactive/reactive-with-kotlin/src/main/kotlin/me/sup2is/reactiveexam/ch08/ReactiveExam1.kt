@@ -16,6 +16,7 @@ fun main(args: Array<String>) {
     println("\n### Flux.blockFirst()\n")
 
     val blockFirst = group1.blockFirst()
+
     println("blockFirst: $blockFirst")
 
     println("\n### Flux.blockLast()\n")
@@ -41,6 +42,6 @@ fun main(args: Array<String>) {
 
     println("\n### Mono.toFuture()\n")
 
-    val toFuture = Mono.just(Person(name = "choi", age = 29)).toFuture()
+    val toFuture = Mono.just(Person(name = "choi", age = 29)).toFuture().get()
     println("toFuture: $toFuture")
 }

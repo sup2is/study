@@ -16,9 +16,9 @@ fun main(args: Array<String>) {
 
     val choi = Mono.just(Person(name = "choi", age = 29))
 
-    println("\n### Mono.error()\n")
+    println("\n### Flux.error()\n")
 
-    Mono.error<RuntimeException>(RuntimeException())
+    Flux.error<RuntimeException>(RuntimeException())
         .log()
         .doOnError { println("doOnError: $it") }
         .subscribe()

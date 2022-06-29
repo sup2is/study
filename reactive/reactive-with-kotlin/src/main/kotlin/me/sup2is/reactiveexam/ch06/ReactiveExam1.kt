@@ -11,24 +11,41 @@ fun main(args: Array<String>) {
         Person(name = "woo", age = 31)
     )
 
-    println("\n### Flux.elapsed()\n")
+    println("\n### Flux.timed()\n")
 
     group1.timed()
         .log()
         .subscribe { println("subscribe: $it") }
 
-    println("\n### Flux.timestamp()\n")
+    println("\n### Flux.timed().elapsed()\n")
+
+    group1.timed()
+        .elapsed()
+        .log()
+        .subscribe { println("subscribe: $it") }
+
+    println("\n### Flux.timed().timestamp()\n")
 
     group1.timed()
         .timestamp()
         .log()
         .subscribe { println("subscribe: $it") }
 
+    println("\n### Flux.elapsed()\n") // legacy
+
+    group1.elapsed()
+        .log()
+        .subscribe { println("subscribe: $it") }
+
+    println("\n### Flux.timestamp()\n") // legacy
+
+    group1.timestamp()
+        .log()
+        .subscribe { println("subscribe: $it") }
+
     println("\n### Flux.delayElements()\n")
 
-    Thread.sleep(2000)
-
-    group1.delayElements(Duration.ofSeconds(1))
+    group1.delayElements(Duration.ofMillis(500))
         .log()
         .subscribe { println("subscribe: $it") }
 
