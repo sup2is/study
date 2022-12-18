@@ -1,19 +1,21 @@
 package me.sup2is.spring6example.client
 
 import me.sup2is.spring6example.client.dto.MemberRequest
+import me.sup2is.spring6example.exception.MemberRequestException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory
 import reactor.kotlin.test.test
 
 // 일단 서버 먼저 올려야됨..~
 @SpringBootTest
-class MemberClientTest {
+class MemberRepositoryTest {
 
-    lateinit var memberClient: MemberClient
+    lateinit var memberRepository: MemberRepository
     lateinit var webClient: WebClient
 
     @BeforeEach
@@ -28,7 +30,7 @@ class MemberClientTest {
             .clientAdapter(webClientAdapter)
             .build()
 
-        memberClient = httpServiceProxyFactory.createClient(MemberClient::class.java)
+        memberRepository = httpServiceProxyFactory.createClient(MemberRepository::class.java)
     }
 
     @Test
@@ -36,7 +38,7 @@ class MemberClientTest {
         // given
         val memberId = "choi"
 
-        memberClient.getMember(memberId)
+        memberRepository.getMember(memberId)
             .test()
             .expectNext("hello $memberId")
             .verifyComplete()
@@ -47,10 +49,21 @@ class MemberClientTest {
         // given
         val memberRequest = MemberRequest("choi", 30)
 
-        memberClient.saveMember(memberRequest)
+        memberRepository.saveMember(memberRequest)
             .test()
             .expectNext(memberRequest)
             .verifyComplete()
     }
 
+
+    @Test
+    fun `error handling 테스트`() {
+        // given
+        val memberRequest = MemberRequest("choi", 10)
+
+        memberRepository.saveMember(memberRequest)
+            .test()
+            .expectError(WebClientResponseException::class.java)
+            .verify()
+    }
 }

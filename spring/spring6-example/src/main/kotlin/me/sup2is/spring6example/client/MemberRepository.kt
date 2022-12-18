@@ -7,7 +7,7 @@ import org.springframework.web.service.annotation.GetExchange
 import org.springframework.web.service.annotation.PostExchange
 import reactor.core.publisher.Mono
 
-interface MemberClient {
+interface MemberRepository {
 
     @GetExchange("/member/{memberId}")
     fun getMember(@PathVariable memberId: String): Mono<String>
