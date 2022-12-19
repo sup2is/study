@@ -1,7 +1,6 @@
 package me.sup2is.spring6example.client
 
 import me.sup2is.spring6example.client.dto.MemberRequest
-import me.sup2is.spring6example.exception.MemberRequestException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
