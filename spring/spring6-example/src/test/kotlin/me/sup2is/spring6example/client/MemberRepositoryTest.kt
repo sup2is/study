@@ -1,8 +1,10 @@
 package me.sup2is.spring6example.client
 
 import me.sup2is.spring6example.client.dto.MemberRequest
+import me.sup2is.spring6example.config.property.MemberApiProperty
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
@@ -14,6 +16,8 @@ import reactor.kotlin.test.test
 @SpringBootTest
 class MemberRepositoryTest {
 
+    @Autowired
+    lateinit var memberApiProperty: MemberApiProperty
     lateinit var memberRepository: MemberRepository
     lateinit var webClient: WebClient
 
